@@ -1,5 +1,6 @@
 package com.konffach.app.features.chat.presentation
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -11,7 +12,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
-import androidx.compose.material3.Divider
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
@@ -43,6 +43,7 @@ fun ChatScreen(
 ) {
     Column(
         modifier = modifier
+            .background(color = MaterialTheme.colorScheme.background)
             .fillMaxSize()
             .padding(16.dp),
     ) {

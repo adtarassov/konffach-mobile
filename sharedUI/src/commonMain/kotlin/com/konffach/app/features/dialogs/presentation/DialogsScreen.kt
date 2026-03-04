@@ -1,5 +1,6 @@
 package com.konffach.app.features.dialogs.presentation
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -9,7 +10,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.Divider
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
@@ -41,6 +41,7 @@ fun DialogsScreen(
 ) {
     Column(
         modifier = modifier
+            .background(color = MaterialTheme.colorScheme.background)
             .fillMaxSize()
             .padding(16.dp),
     ) {
