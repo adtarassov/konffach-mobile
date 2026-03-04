@@ -2,7 +2,6 @@ package com.konffach.app
 
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material3.MaterialTheme
@@ -11,14 +10,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import com.konffach.app.di.LocalAppScope
 import com.konffach.app.di.createAppGraph
 import com.konffach.app.navigation.AppRoot
 import com.konffach.app.theme.AppTheme
 
-@Preview
 @Composable
 fun App(
     onThemeChanged: @Composable (isDark: Boolean) -> Unit = {}
@@ -30,8 +26,7 @@ fun App(
             Surface(
                 modifier = Modifier
                     .fillMaxSize()
-                    .windowInsetsPadding(WindowInsets.safeDrawing)
-                    .padding(16.dp),
+                    .windowInsetsPadding(WindowInsets.safeDrawing),
                 color = MaterialTheme.colorScheme.background,
             ) {
                 AppRoot()

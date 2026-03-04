@@ -1,11 +1,13 @@
 package com.konffach.app.features.chat.presentation
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import com.konffach.app.di.LocalAppScope
 import com.konffach.app.navigation.AppNavKey
+import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun ChatScreenBinding(
@@ -18,8 +20,13 @@ fun ChatScreenBinding(
     }
     val state by viewModel.state.collectAsState()
 
-    ChatScreen(
-        state = state,
-        onBack = onBack,
-    )
+    LaunchedEffect(viewModel) {
+        viewModel.effects.collectLatest { effect ->
+            when (effect) {
+                ChatEffect.NavigateBack -> onBack()
+            }
+        }
+    }
+
+    ChatScreen(state = state)
 }

@@ -18,16 +18,13 @@ sealed interface AuthEffect {
     data object NavigateToDialogs : AuthEffect
 }
 
-class AuthViewModel @AssistedInject constructor() : ViewModel() {
-
-    @AssistedFactory
-    fun interface Factory {
-        fun create(): AuthViewModel
-    }
+@AssistedInject
+class AuthViewModel : ViewModel() {
 
     private val _state = MutableStateFlow(
         AuthScreenState(
-            isLoading = false
+            isLoading = false,
+            onIntent = ::onIntent,
         )
     )
     val state: StateFlow<AuthScreenState> = _state.asStateFlow()
@@ -38,11 +35,15 @@ class AuthViewModel @AssistedInject constructor() : ViewModel() {
     )
     val effects = _effects.asSharedFlow()
 
-    fun onIntent(intent: AuthIntent) {
+    private fun onIntent(intent: AuthIntent) {
         when (intent) {
-            AuthIntent.SignInClicked -> {
-                _effects.tryEmit(AuthEffect.NavigateToDialogs)
-            }
+            AuthIntent.SignInClicked -> _effects.tryEmit(AuthEffect.NavigateToDialogs)
         }
+    }
+
+
+    @AssistedFactory
+    fun interface Factory {
+        fun create(): AuthViewModel
     }
 }

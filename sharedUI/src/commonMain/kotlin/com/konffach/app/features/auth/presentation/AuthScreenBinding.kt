@@ -27,8 +27,5 @@ fun AuthScreenBinding(
         }
     }
 
-    AuthScreen(
-        state = state,
-        onIntent = { intent -> viewModel.onIntent(intent) },
-    )
+    AuthScreen(state = state)
 }

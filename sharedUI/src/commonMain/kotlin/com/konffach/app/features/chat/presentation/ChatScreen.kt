@@ -12,6 +12,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
 import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -24,11 +25,13 @@ import com.konffach.app.features.chat.domain.ChatMessage
 data class ChatScreenState(
     val dialogId: String,
     val messages: List<ChatMessage>,
+    val onIntent: (ChatIntent) -> Unit,
 ) {
     companion object {
         val Default = ChatScreenState(
             dialogId = "",
             messages = emptyList(),
+            onIntent = {},
         )
     }
 }
@@ -36,7 +39,6 @@ data class ChatScreenState(
 @Composable
 fun ChatScreen(
     state: ChatScreenState,
-    onBack: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -52,12 +54,12 @@ fun ChatScreen(
                 text = "Chat ${state.dialogId}",
                 style = MaterialTheme.typography.headlineMedium,
             )
-            Button(onClick = onBack) {
+            Button(onClick = { state.onIntent(ChatIntent.BackClicked) }) {
                 Text("Back")
             }
         }
         Spacer(Modifier.height(8.dp))
-        Divider()
+        HorizontalDivider()
 
         LazyColumn(
             modifier = Modifier
@@ -78,7 +80,7 @@ fun ChatScreen(
             }
         }
 
-        Divider()
+        HorizontalDivider()
         Spacer(Modifier.height(8.dp))
         OutlinedTextField(
             value = "",
@@ -94,8 +96,5 @@ fun ChatScreen(
 @Composable
 private fun ChatScreenPreview() {
     val previewState = ChatScreenState.Default
-    ChatScreen(
-        state = previewState,
-        onBack = {},
-    )
+    ChatScreen(state = previewState)
 }

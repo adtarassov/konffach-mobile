@@ -14,10 +14,12 @@ import androidx.compose.ui.unit.dp
 
 data class AuthScreenState(
     val isLoading: Boolean,
+    val onIntent: (AuthIntent) -> Unit,
 ) {
     companion object {
         val Default = AuthScreenState(
             isLoading = false,
+            onIntent = {},
         )
     }
 }
@@ -25,7 +27,6 @@ data class AuthScreenState(
 @Composable
 fun AuthScreen(
     state: AuthScreenState,
-    onIntent: (AuthIntent) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -39,7 +40,9 @@ fun AuthScreen(
 
         Button(
             modifier = Modifier.padding(top = 16.dp),
-            onClick = { onIntent(AuthIntent.SignInClicked) },
+            onClick = {
+                state.onIntent(AuthIntent.SignInClicked)
+            },
         ) {
             Text("Sign In")
         }
@@ -50,8 +53,5 @@ fun AuthScreen(
 @Composable
 private fun AuthScreenPreview() {
     val previewState = AuthScreenState.Default
-    AuthScreen(
-        state = previewState,
-        onIntent = {},
-    )
+    AuthScreen(state = previewState)
 }

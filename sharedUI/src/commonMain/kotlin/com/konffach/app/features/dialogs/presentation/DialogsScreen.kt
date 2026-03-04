@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -22,10 +23,12 @@ import com.konffach.app.features.dialogs.domain.ChatSummary
 
 data class DialogsScreenState(
     val dialogs: List<ChatSummary>,
+    val onIntent: (DialogsIntent) -> Unit,
 ) {
     companion object {
         val Default = DialogsScreenState(
             dialogs = emptyList(),
+            onIntent = {},
         )
     }
 }
@@ -34,7 +37,6 @@ data class DialogsScreenState(
 @Composable
 fun DialogsScreen(
     state: DialogsScreenState,
-    onOpenChat: (dialogId: String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -46,7 +48,7 @@ fun DialogsScreen(
             text = "Dialogs",
             style = MaterialTheme.typography.headlineMedium,
         )
-        Divider(Modifier.padding(vertical = 8.dp))
+        HorizontalDivider(Modifier.padding(vertical = 8.dp))
 
         LazyColumn(
             modifier = Modifier
@@ -58,7 +60,7 @@ fun DialogsScreen(
                 ListItem(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .clickable { onOpenChat(chat.id) },
+                        .clickable { state.onIntent(DialogsIntent.OpenChatClicked(chat.id)) },
                     leadingContent = {
                         AsyncImage(
                             modifier = Modifier.height(40.dp),
@@ -78,8 +80,5 @@ fun DialogsScreen(
 @Composable
 private fun DialogsScreenPreview() {
     val previewState = DialogsScreenState.Default
-    DialogsScreen(
-        state = previewState,
-        onOpenChat = {},
-    )
+    DialogsScreen(state = previewState)
 }

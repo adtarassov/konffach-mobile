@@ -1,13 +1,12 @@
 package com.konffach.app.features.chat.data
 
 import com.konffach.app.features.chat.domain.ChatMessage
+import com.konffach.app.di.AppScope
 import com.konffach.app.features.dialogs.domain.ChatSummary
 import dev.zacsweers.metro.Inject
+import dev.zacsweers.metro.SingleIn
 
-/**
- * Default in-memory implementation of [ChatRepository].
- * Bound in the graph; swap to a real implementation by changing the binding only.
- */
+@SingleIn(AppScope::class)
 @Inject
 class InMemoryChatRepository : ChatRepository {
     private val chats = listOf(
