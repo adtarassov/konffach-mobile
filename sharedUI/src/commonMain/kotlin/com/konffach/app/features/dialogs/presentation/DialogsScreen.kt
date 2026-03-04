@@ -1,0 +1,85 @@
+package com.konffach.app.features.dialogs.presentation
+
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.Divider
+import androidx.compose.material3.ListItem
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import coil3.compose.AsyncImage
+import com.konffach.app.features.dialogs.domain.ChatSummary
+
+data class DialogsScreenState(
+    val dialogs: List<ChatSummary>,
+) {
+    companion object {
+        val Default = DialogsScreenState(
+            dialogs = emptyList(),
+        )
+    }
+}
+
+
+@Composable
+fun DialogsScreen(
+    state: DialogsScreenState,
+    onOpenChat: (dialogId: String) -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    Column(
+        modifier = modifier
+            .fillMaxSize()
+            .padding(16.dp),
+    ) {
+        Text(
+            text = "Dialogs",
+            style = MaterialTheme.typography.headlineMedium,
+        )
+        Divider(Modifier.padding(vertical = 8.dp))
+
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(top = 8.dp),
+            verticalArrangement = Arrangement.spacedBy(4.dp),
+        ) {
+            items(state.dialogs) { chat ->
+                ListItem(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clickable { onOpenChat(chat.id) },
+                    leadingContent = {
+                        AsyncImage(
+                            modifier = Modifier.height(40.dp),
+                            model = chat.avatarUrl,
+                            contentDescription = "Avatar",
+                        )
+                    },
+                    headlineContent = { Text(chat.title) },
+                    supportingContent = { Text(chat.lastMessage) },
+                )
+            }
+        }
+    }
+}
+
+@Preview
+@Composable
+private fun DialogsScreenPreview() {
+    val previewState = DialogsScreenState.Default
+    DialogsScreen(
+        state = previewState,
+        onOpenChat = {},
+    )
+}
