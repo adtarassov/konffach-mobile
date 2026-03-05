@@ -1,13 +1,17 @@
 package com.konffach.app.di
 
+import com.konffach.app.features.auth.data.AuthApi
+import com.konffach.app.features.auth.data.AuthRepository
+import com.konffach.app.features.auth.data.AuthRepositoryImpl
+import com.konffach.app.features.auth.data.TokenRepository
+import com.konffach.app.features.auth.data.TokenRepositoryImpl
 import com.konffach.app.features.auth.presentation.AuthViewModel
 import com.konffach.app.features.chat.data.ChatRepository
 import com.konffach.app.features.chat.data.InMemoryChatRepository
 import com.konffach.app.features.chat.presentation.ChatViewModel
 import com.konffach.app.features.dialogs.presentation.DialogsViewModel
-import com.konffach.app.features.posts.data.PostsRepository
-import com.konffach.app.features.posts.data.PostsRepositoryImpl
 import com.konffach.app.network.createHttpClient
+import com.russhwolf.settings.Settings
 import dev.zacsweers.metro.Binds
 import dev.zacsweers.metro.DependencyGraph
 import dev.zacsweers.metro.Provides
@@ -30,10 +34,15 @@ interface AppGraph : AppScope {
 
     @Provides
     @SingleIn(AppScope::class)
+    fun provideSettings(): Settings = Settings()
+
+    @Provides
+    @SingleIn(AppScope::class)
     fun provideHttpClient(): HttpClient = createHttpClient()
 
+    @Binds val AuthRepositoryImpl.bind: AuthRepository
+    @Binds val TokenRepositoryImpl.bind: TokenRepository
     @Binds val InMemoryChatRepository.bind: ChatRepository
-    @Binds val PostsRepositoryImpl.bind: PostsRepository
 }
 
 fun createAppGraph(): AppGraph = createGraph()

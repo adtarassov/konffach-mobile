@@ -3,7 +3,6 @@ package com.konffach.app.features.dialogs.presentation
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.konffach.app.features.chat.data.ChatRepository
-import com.konffach.app.features.posts.data.PostsRepository
 import com.konffach.app.network.onError
 import com.konffach.app.network.onSuccess
 import dev.zacsweers.metro.AssistedFactory
@@ -26,7 +25,6 @@ sealed interface DialogsEffect {
 
 @AssistedInject
 class DialogsViewModel(
-    private val postsRepository: PostsRepository,
     repository: ChatRepository,
 ) : ViewModel() {
 
@@ -47,14 +45,6 @@ class DialogsViewModel(
     private fun onIntent(intent: DialogsIntent) {
         when (intent) {
             is DialogsIntent.OpenChatClicked -> _effects.tryEmit(DialogsEffect.NavigateToChat(intent.dialogId))
-        }
-    }
-
-    init {
-        viewModelScope.launch {
-            postsRepository.getPosts()
-                .onSuccess { println("Network smoke test: OK, ${it.size} posts") }
-                .onError { println("Network smoke test: $it") }
         }
     }
 

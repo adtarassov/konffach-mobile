@@ -12,17 +12,25 @@ import kotlinx.serialization.SerializationException
  * Deterministic; does not read response body to avoid suspend/engine issues.
  */
 fun mapToNetworkError(throwable: Throwable): NetworkError {
+    val errorMessage = throwable.message ?: throwable.toString()
     return when (throwable) {
-        is ConnectTimeoutException, is SocketTimeoutException -> NetworkError.Timeout
+        is ConnectTimeoutException, is SocketTimeoutException -> NetworkError.Timeout(message = errorMessage)
         is ResponseException -> NetworkError.HttpError(
             statusCode = throwable.response.status.value,
             bodySnippet = null,
+            message = errorMessage
         )
+
         is ClientRequestException -> NetworkError.HttpError(
             statusCode = throwable.response.status.value,
             bodySnippet = null,
+            message = errorMessage
         )
-        is JsonConvertException, is SerializationException -> NetworkError.SerializationError
-        else -> NetworkError.UnknownError(throwable.message ?: throwable.toString())
+
+        is JsonConvertException, is SerializationException -> NetworkError.SerializationError(
+            message = errorMessage
+        )
+
+        else -> NetworkError.UnknownError(message = errorMessage)
     }
 }

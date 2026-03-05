@@ -22,7 +22,7 @@ fun AuthScreenBinding(
     LaunchedEffect(viewModel) {
         viewModel.effects.collectLatest { effect ->
             when (effect) {
-                AuthEffect.NavigateToDialogs -> onSignedIn()
+                AuthEffect.AuthSucceeded -> onSignedIn()
             }
         }
     }

@@ -5,14 +5,17 @@ package com.konffach.app.network
  */
 sealed interface NetworkError {
 
-    data object Timeout : NetworkError
+    val message: String
+
+    data class Timeout(override val message: String) : NetworkError
 
     data class HttpError(
         val statusCode: Int,
         val bodySnippet: String? = null,
+        override val message: String,
     ) : NetworkError
 
-    data object SerializationError : NetworkError
+    data class SerializationError(override val message: String) : NetworkError
 
-    data class UnknownError(val message: String) : NetworkError
+    data class UnknownError(override val message: String) : NetworkError
 }

@@ -14,10 +14,11 @@ import io.ktor.client.plugins.logging.LogLevel
 import io.ktor.client.plugins.logging.Logger
 import io.ktor.client.plugins.logging.Logging
 import io.ktor.client.plugins.logging.SIMPLE
+import kotlin.time.Duration.Companion.seconds
 
-private const val REQUEST_TIMEOUT_MS = 30_000L
-private const val CONNECT_TIMEOUT_MS = 15_000L
-private const val SOCKET_TIMEOUT_MS = 30_000L
+private val REQUEST_TIMEOUT = 20.seconds
+private val CONNECT_TIMEOUT = 10.seconds
+private val SOCKET_TIMEOUT = 20.seconds
 
 private const val DEFAULT_BASE_URL = "https://jsonplaceholder.typicode.com"
 
@@ -36,9 +37,9 @@ fun createHttpClient(): HttpClient = createPlatformHttpClient {
         json(jsonConfig)
     }
     install(HttpTimeout) {
-        requestTimeoutMillis = REQUEST_TIMEOUT_MS
-        connectTimeoutMillis = CONNECT_TIMEOUT_MS
-        socketTimeoutMillis = SOCKET_TIMEOUT_MS
+        requestTimeoutMillis = REQUEST_TIMEOUT.inWholeMilliseconds
+        connectTimeoutMillis = CONNECT_TIMEOUT.inWholeMilliseconds
+        socketTimeoutMillis = SOCKET_TIMEOUT.inWholeMilliseconds
     }
     install(Logging) {
         logger = Logger.SIMPLE
