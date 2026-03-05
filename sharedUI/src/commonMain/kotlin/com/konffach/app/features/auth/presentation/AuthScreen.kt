@@ -19,6 +19,14 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import konffach.sharedui.generated.resources.Res
+import konffach.sharedui.generated.resources.auth_login
+import konffach.sharedui.generated.resources.auth_password
+import konffach.sharedui.generated.resources.auth_sign_in
+import konffach.sharedui.generated.resources.auth_sign_up
+import konffach.sharedui.generated.resources.auth_signing_in
+import konffach.sharedui.generated.resources.auth_signing_up
+import org.jetbrains.compose.resources.stringResource
 
 data class AuthScreenState(
     val login: String,
@@ -28,7 +36,7 @@ data class AuthScreenState(
     val onIntent: (AuthIntent) -> Unit,
 ) {
     companion object {
-         fun preview() = AuthScreenState(
+        fun preview() = AuthScreenState(
             login = "",
             password = "",
             isLoading = false,
@@ -54,7 +62,7 @@ fun AuthScreen(
         OutlinedTextField(
             value = state.login,
             onValueChange = { state.onIntent(AuthIntent.LoginChanged(it)) },
-            label = { Text("Login") },
+            label = { Text(stringResource(Res.string.auth_login)) },
             singleLine = true,
             modifier = Modifier.fillMaxWidth(),
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
@@ -63,7 +71,7 @@ fun AuthScreen(
         OutlinedTextField(
             value = state.password,
             onValueChange = { state.onIntent(AuthIntent.PasswordChanged(it)) },
-            label = { Text("Password") },
+            label = { Text(stringResource(Res.string.auth_password)) },
             singleLine = true,
             visualTransformation = PasswordVisualTransformation(),
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
@@ -87,7 +95,15 @@ fun AuthScreen(
             onClick = { state.onIntent(AuthIntent.SignInClicked) },
             enabled = !state.isLoading,
         ) {
-            Text(if (state.isLoading) "Signing in…" else "Sign in")
+            Text(
+                stringResource(
+                    if (state.isLoading) {
+                        Res.string.auth_signing_in
+                    } else {
+                        Res.string.auth_sign_in
+                    }
+                )
+            )
         }
         OutlinedButton(
             modifier = Modifier
@@ -96,7 +112,15 @@ fun AuthScreen(
             onClick = { state.onIntent(AuthIntent.SignUpClicked) },
             enabled = !state.isLoading,
         ) {
-            Text(if (state.isLoading) "Signing up…" else "Sign up")
+            Text(
+                stringResource(
+                    if (state.isLoading) {
+                        Res.string.auth_signing_up
+                    } else {
+                        Res.string.auth_sign_up
+                    }
+                )
+            )
         }
     }
 }

@@ -21,6 +21,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.konffach.app.features.chat.domain.ChatMessage
+import konffach.sharedui.generated.resources.Res
+import konffach.sharedui.generated.resources.chat_back
+import konffach.sharedui.generated.resources.chat_message_input_mock
+import konffach.sharedui.generated.resources.chat_title
+import org.jetbrains.compose.resources.stringResource
 
 data class ChatScreenState(
     val dialogId: String,
@@ -52,11 +57,11 @@ fun ChatScreen(
             horizontalArrangement = Arrangement.SpaceBetween,
         ) {
             Text(
-                text = "Chat ${state.dialogId}",
+                text = stringResource(Res.string.chat_title, state.dialogId),
                 style = MaterialTheme.typography.headlineMedium,
             )
             Button(onClick = { state.onIntent(ChatIntent.BackClicked) }) {
-                Text("Back")
+                Text(stringResource(Res.string.chat_back))
             }
         }
         Spacer(Modifier.height(8.dp))
@@ -88,7 +93,7 @@ fun ChatScreen(
             onValueChange = {},
             modifier = Modifier.fillMaxWidth(),
             enabled = false,
-            label = { Text("Message input (mock)") },
+            label = { Text(stringResource(Res.string.chat_message_input_mock)) },
         )
     }
 }

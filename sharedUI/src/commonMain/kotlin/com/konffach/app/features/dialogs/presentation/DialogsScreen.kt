@@ -19,7 +19,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
+import org.jetbrains.compose.resources.stringResource
 import com.konffach.app.features.dialogs.domain.ChatSummary
+import konffach.sharedui.generated.resources.Res
+import konffach.sharedui.generated.resources.dialogs_avatar
+import konffach.sharedui.generated.resources.dialogs_title
 
 data class DialogsScreenState(
     val dialogs: List<ChatSummary>,
@@ -46,7 +50,7 @@ fun DialogsScreen(
             .padding(16.dp),
     ) {
         Text(
-            text = "Dialogs",
+            text = stringResource(Res.string.dialogs_title),
             style = MaterialTheme.typography.headlineMedium,
         )
         HorizontalDivider(Modifier.padding(vertical = 8.dp))
@@ -66,7 +70,7 @@ fun DialogsScreen(
                         AsyncImage(
                             modifier = Modifier.height(40.dp),
                             model = chat.avatarUrl,
-                            contentDescription = "Avatar",
+                            contentDescription = stringResource(Res.string.dialogs_avatar),
                         )
                     },
                     headlineContent = { Text(chat.title) },

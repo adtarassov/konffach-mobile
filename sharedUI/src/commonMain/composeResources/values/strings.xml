@@ -4,4 +4,21 @@
     <string name="run">Run</string>
     <string name="stop">Stop</string>
     <string name="theme">Theme</string>
+
+    <!-- Auth -->
+    <string name="auth_login">Login</string>
+    <string name="auth_password">Password</string>
+    <string name="auth_sign_in">Sign in</string>
+    <string name="auth_sign_up">Sign up</string>
+    <string name="auth_signing_in">Signing in…</string>
+    <string name="auth_signing_up">Signing up…</string>
+
+    <!-- Dialogs -->
+    <string name="dialogs_title">Dialogs</string>
+    <string name="dialogs_avatar">Avatar</string>
+
+    <!-- Chat -->
+    <string name="chat_title">Chat %s</string>
+    <string name="chat_back">Back</string>
+    <string name="chat_message_input_mock">Message input (mock)</string>
 </resources>
