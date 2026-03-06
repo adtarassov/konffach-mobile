@@ -11,7 +11,6 @@ import kotlinx.coroutines.flow.asStateFlow
 
 private const val KEY_ACCESS = "auth_access_token"
 private const val KEY_REFRESH = "auth_refresh_token"
-private const val KEY_EXPIRATION = "auth_expiration_date"
 
 @Inject
 @SingleIn(AppScope::class)

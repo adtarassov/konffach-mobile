@@ -11,6 +11,7 @@ import com.konffach.app.features.chat.api.ChatRepository
 import com.konffach.app.features.chat.screen.InMemoryChatRepository
 import com.konffach.app.features.chat.ui.ChatViewModel
 import com.konffach.app.features.dialogs.ui.DialogsViewModel
+import com.konffach.app.navigation.NavigationViewModel
 import com.konffach.app.network.createHttpClient
 import com.russhwolf.settings.Settings
 import dev.zacsweers.metro.Binds
@@ -29,6 +30,7 @@ interface AppScope
 @DependencyGraph(AppScope::class)
 interface AppGraph : AppScope {
 
+    val navigationViewModel: NavigationViewModel
     val authViewModelFactory: AuthViewModel.Factory
     val dialogsViewModelFactory: DialogsViewModel.Factory
     val chatViewModelFactory: ChatViewModel.Factory
