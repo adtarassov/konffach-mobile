@@ -1,4 +1,4 @@
-package com.konffach.app.features.dialogs.presentation
+package com.konffach.app.features.dialogs.ui
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect

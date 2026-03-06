@@ -1,8 +1,8 @@
-package com.konffach.app.features.chat.data
+package com.konffach.app.features.chat.screen
 
-import com.konffach.app.features.chat.domain.ChatMessage
+import com.konffach.app.features.chat.api.ChatRepository
+import com.konffach.app.features.dialogs.screen.ChatSummary
 import com.konffach.app.di.AppScope
-import com.konffach.app.features.dialogs.domain.ChatSummary
 import dev.zacsweers.metro.Inject
 import dev.zacsweers.metro.SingleIn
 

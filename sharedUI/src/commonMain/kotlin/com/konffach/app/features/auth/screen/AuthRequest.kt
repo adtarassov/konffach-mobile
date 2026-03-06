@@ -1,4 +1,4 @@
-package com.konffach.app.features.auth.data
+package com.konffach.app.features.auth.screen
 
 import kotlinx.serialization.Serializable
 

@@ -1,15 +1,16 @@
 package com.konffach.app.di
 
-import com.konffach.app.features.auth.data.AuthApi
-import com.konffach.app.features.auth.data.AuthRepository
-import com.konffach.app.features.auth.data.AuthRepositoryImpl
-import com.konffach.app.features.auth.data.TokenRepository
-import com.konffach.app.features.auth.data.TokenRepositoryImpl
-import com.konffach.app.features.auth.presentation.AuthViewModel
-import com.konffach.app.features.chat.data.ChatRepository
-import com.konffach.app.features.chat.data.InMemoryChatRepository
-import com.konffach.app.features.chat.presentation.ChatViewModel
-import com.konffach.app.features.dialogs.presentation.DialogsViewModel
+import androidx.compose.runtime.staticCompositionLocalOf
+import com.konffach.app.features.auth.api.AuthRepository
+import com.konffach.app.features.auth.api.TokenRepository
+import com.konffach.app.features.auth.ui.AuthViewModel
+import com.konffach.app.features.auth.screen.AuthApi
+import com.konffach.app.features.auth.screen.AuthRepositoryImpl
+import com.konffach.app.features.auth.screen.TokenRepositoryImpl
+import com.konffach.app.features.chat.api.ChatRepository
+import com.konffach.app.features.chat.screen.InMemoryChatRepository
+import com.konffach.app.features.chat.ui.ChatViewModel
+import com.konffach.app.features.dialogs.ui.DialogsViewModel
 import com.konffach.app.network.createHttpClient
 import com.russhwolf.settings.Settings
 import dev.zacsweers.metro.Binds
@@ -46,3 +47,7 @@ interface AppGraph : AppScope {
 }
 
 fun createAppGraph(): AppGraph = createGraph()
+
+val LocalAppScope = staticCompositionLocalOf<AppGraph> {
+    error("AppGraph is not provided. Make sure to wrap your root composable with a provider.")
+}

@@ -1,4 +1,4 @@
-package com.konffach.app.features.dialogs.domain
+package com.konffach.app.features.dialogs.screen
 
 data class ChatSummary(
     val id: String,

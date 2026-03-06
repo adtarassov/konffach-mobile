@@ -8,9 +8,9 @@ import androidx.navigation3.runtime.NavKey
 import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.ui.NavDisplay
 import androidx.savedstate.serialization.SavedStateConfiguration
-import com.konffach.app.features.auth.presentation.AuthScreenBinding
-import com.konffach.app.features.chat.presentation.ChatScreenBinding
-import com.konffach.app.features.dialogs.presentation.DialogsScreenBinding
+import com.konffach.app.features.auth.ui.AuthScreenBinding
+import com.konffach.app.features.chat.ui.ChatScreenBinding
+import com.konffach.app.features.dialogs.ui.DialogsScreenBinding
 import kotlinx.serialization.modules.SerializersModule
 import kotlinx.serialization.modules.polymorphic
 

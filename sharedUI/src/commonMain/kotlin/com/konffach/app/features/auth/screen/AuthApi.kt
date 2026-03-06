@@ -1,4 +1,4 @@
-package com.konffach.app.features.auth.data
+package com.konffach.app.features.auth.screen
 
 import com.konffach.app.di.AppScope
 import dev.zacsweers.metro.Inject
@@ -8,8 +8,8 @@ import io.ktor.client.call.body
 import io.ktor.client.request.post
 import io.ktor.client.request.setBody
 
-private const val PATH_SIGN_IN = "auth/signin"
-private const val PATH_SIGN_UP = "auth/signup"
+private const val PATH_SIGN_IN = "users/login"
+private const val PATH_SIGN_UP = "users/register"
 
 @Inject
 @SingleIn(AppScope::class)

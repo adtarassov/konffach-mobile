@@ -1,4 +1,4 @@
-package com.konffach.app.features.chat.presentation
+package com.konffach.app.features.chat.ui
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect

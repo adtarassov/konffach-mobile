@@ -1,6 +1,7 @@
-package com.konffach.app.features.auth.data
+package com.konffach.app.features.auth.screen
 
 import com.konffach.app.di.AppScope
+import com.konffach.app.features.auth.api.AuthRepository
 import com.konffach.app.network.safeApiCall
 import dev.zacsweers.metro.Inject
 import dev.zacsweers.metro.SingleIn

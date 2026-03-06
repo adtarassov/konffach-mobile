@@ -1,8 +1,8 @@
-package com.konffach.app.features.dialogs.presentation
+package com.konffach.app.features.dialogs.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.konffach.app.features.chat.data.ChatRepository
+import com.konffach.app.features.chat.api.ChatRepository
 import com.konffach.app.network.onError
 import com.konffach.app.network.onSuccess
 import dev.zacsweers.metro.AssistedFactory

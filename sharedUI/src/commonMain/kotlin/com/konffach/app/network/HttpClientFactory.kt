@@ -20,7 +20,7 @@ private val REQUEST_TIMEOUT = 20.seconds
 private val CONNECT_TIMEOUT = 10.seconds
 private val SOCKET_TIMEOUT = 20.seconds
 
-private const val DEFAULT_BASE_URL = "https://jsonplaceholder.typicode.com"
+private const val DEFAULT_BASE_URL = "https://konffach-lranger123.amvera.io/api/"
 
 private val jsonConfig = Json {
     ignoreUnknownKeys = true
@@ -43,7 +43,7 @@ fun createHttpClient(): HttpClient = createPlatformHttpClient {
     }
     install(Logging) {
         logger = Logger.SIMPLE
-        level = LogLevel.INFO
+        level = LogLevel.BODY
     }
     defaultRequest {
         url(DEFAULT_BASE_URL)

@@ -1,6 +1,7 @@
-package com.konffach.app.features.auth.data
+package com.konffach.app.features.auth.screen
 
 import com.konffach.app.di.AppScope
+import com.konffach.app.features.auth.api.TokenRepository
 import com.russhwolf.settings.Settings
 import dev.zacsweers.metro.Inject
 import dev.zacsweers.metro.SingleIn
@@ -24,25 +25,21 @@ class TokenRepositoryImpl(
     override suspend fun save(tokens: AuthTokens) {
         settings.putString(KEY_ACCESS, tokens.accessToken)
         settings.putString(KEY_REFRESH, tokens.refreshToken)
-        settings.putString(KEY_EXPIRATION, tokens.expirationDate)
         _tokensFlow.value = tokens
     }
 
     override suspend fun clear() {
         settings.remove(KEY_ACCESS)
         settings.remove(KEY_REFRESH)
-        settings.remove(KEY_EXPIRATION)
         _tokensFlow.value = null
     }
 
     private fun loadFromSettings(): AuthTokens? {
         val accessToken = settings.getStringOrNull(KEY_ACCESS) ?: return null
         val refreshToken = settings.getStringOrNull(KEY_REFRESH) ?: return null
-        val expirationDate = settings.getStringOrNull(KEY_EXPIRATION) ?: return null
         return AuthTokens(
             accessToken = accessToken,
             refreshToken = refreshToken,
-            expirationDate = expirationDate
         )
     }
 }

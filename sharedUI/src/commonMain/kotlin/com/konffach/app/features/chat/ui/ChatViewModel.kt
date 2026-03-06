@@ -1,7 +1,7 @@
-package com.konffach.app.features.chat.presentation
+package com.konffach.app.features.chat.ui
 
 import androidx.lifecycle.ViewModel
-import com.konffach.app.features.chat.data.ChatRepository
+import com.konffach.app.features.chat.api.ChatRepository
 import dev.zacsweers.metro.Assisted
 import dev.zacsweers.metro.AssistedFactory
 import dev.zacsweers.metro.AssistedInject

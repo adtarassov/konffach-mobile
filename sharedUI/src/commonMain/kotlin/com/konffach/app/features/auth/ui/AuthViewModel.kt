@@ -1,10 +1,10 @@
-package com.konffach.app.features.auth.presentation
+package com.konffach.app.features.auth.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.konffach.app.features.auth.data.AuthRepository
-import com.konffach.app.features.auth.data.AuthTokens
-import com.konffach.app.features.auth.data.TokenRepository
+import com.konffach.app.features.auth.api.AuthRepository
+import com.konffach.app.features.auth.api.TokenRepository
+import com.konffach.app.features.auth.screen.AuthTokens
 import com.konffach.app.network.ApiResult
 import dev.zacsweers.metro.AssistedFactory
 import dev.zacsweers.metro.AssistedInject

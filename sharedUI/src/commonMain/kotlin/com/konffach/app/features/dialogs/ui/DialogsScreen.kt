@@ -1,4 +1,4 @@
-package com.konffach.app.features.dialogs.presentation
+package com.konffach.app.features.dialogs.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -20,7 +20,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import org.jetbrains.compose.resources.stringResource
-import com.konffach.app.features.dialogs.domain.ChatSummary
+import com.konffach.app.features.dialogs.screen.ChatSummary
 import konffach.sharedui.generated.resources.Res
 import konffach.sharedui.generated.resources.dialogs_avatar
 import konffach.sharedui.generated.resources.dialogs_title

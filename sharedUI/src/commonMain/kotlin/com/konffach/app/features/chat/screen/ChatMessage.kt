@@ -1,4 +1,4 @@
-package com.konffach.app.features.chat.domain
+package com.konffach.app.features.chat.screen
 
 data class ChatMessage(
     val id: String,

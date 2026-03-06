@@ -1,4 +1,4 @@
-package com.konffach.app.features.auth.data
+package com.konffach.app.features.auth.screen
 
 import kotlinx.serialization.Serializable
 
@@ -6,5 +6,4 @@ import kotlinx.serialization.Serializable
 data class AuthTokens(
     val accessToken: String,
     val refreshToken: String,
-    val expirationDate: String,
 )

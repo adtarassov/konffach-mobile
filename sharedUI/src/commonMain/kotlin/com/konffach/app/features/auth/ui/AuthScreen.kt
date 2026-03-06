@@ -1,12 +1,15 @@
-package com.konffach.app.features.auth.presentation
+package com.konffach.app.features.auth.ui
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement.Absolute.spacedBy
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.MaterialTheme
@@ -56,11 +59,13 @@ fun AuthScreen(
     modifier: Modifier = Modifier,
 ) {
     LoadingOverlay(isLoading = state.isLoading) {
+        val verticalScrollState = rememberScrollState()
         Column(
             modifier = modifier
                 .background(color = MaterialTheme.colorScheme.background)
                 .fillMaxSize()
-                .padding(24.dp),
+                .padding(horizontal = 16.dp)
+                .verticalScroll(state = verticalScrollState),
             verticalArrangement = spacedBy(12.dp, alignment = Alignment.CenterVertically),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
@@ -68,7 +73,6 @@ fun AuthScreen(
                 text = "Konffach",
                 color = MaterialTheme.colorScheme.onBackground,
                 style = MaterialTheme.typography.displayLarge,
-
                 textAlign = TextAlign.Center,
             )
             OutlinedTextField(

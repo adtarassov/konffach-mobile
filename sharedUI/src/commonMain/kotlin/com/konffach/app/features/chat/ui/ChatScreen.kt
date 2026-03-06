@@ -1,4 +1,4 @@
-package com.konffach.app.features.chat.presentation
+package com.konffach.app.features.chat.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -20,7 +20,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.konffach.app.features.chat.domain.ChatMessage
+import com.konffach.app.features.chat.screen.ChatMessage
 import konffach.sharedui.generated.resources.Res
 import konffach.sharedui.generated.resources.chat_back
 import konffach.sharedui.generated.resources.chat_message_input_mock
