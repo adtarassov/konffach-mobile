@@ -20,7 +20,7 @@ class NavigationViewModel(
             val accessToken = tokens?.accessToken
             NavigationState(
                 initialElements = listOf(
-                    if (accessToken.isNullOrBlank()) AppNavKey.Auth else AppNavKey.Dialogs
+                    if (accessToken.isNullOrBlank()) AppNavKey.Auth else AppNavKey.Home
                 )
             )
         }
@@ -32,7 +32,7 @@ class NavigationViewModel(
                         if (tokensFlow.value?.accessToken.isNullOrBlank()) {
                             AppNavKey.Auth
                         } else {
-                            AppNavKey.Dialogs
+                            AppNavKey.Home
                         }
                     )
                 ),

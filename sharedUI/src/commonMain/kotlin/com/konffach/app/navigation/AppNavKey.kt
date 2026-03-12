@@ -10,7 +10,13 @@ sealed interface AppNavKey : NavKey {
     data object Auth : AppNavKey
 
     @Serializable
+    data object Home : AppNavKey
+
+    @Serializable
     data object Dialogs : AppNavKey
+
+    @Serializable
+    data object Settings : AppNavKey
 
     @Serializable
     data class Chat(val dialogId: String) : AppNavKey

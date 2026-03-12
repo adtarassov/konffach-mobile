@@ -16,6 +16,8 @@ import com.konffach.app.di.LocalAppScope
 import com.konffach.app.features.auth.ui.AuthScreenBinding
 import com.konffach.app.features.chat.ui.ChatScreenBinding
 import com.konffach.app.features.dialogs.ui.DialogsScreenBinding
+import com.konffach.app.features.home.ui.HomeScreenBinding
+import com.konffach.app.features.settings.ui.SettingsScreenBinding
 import kotlinx.serialization.modules.SerializersModule
 import kotlinx.serialization.modules.polymorphic
 
@@ -38,7 +40,9 @@ fun AppRoot() {
             serializersModule = SerializersModule {
                 polymorphic(NavKey::class) {
                     subclass(AppNavKey.Auth::class, AppNavKey.Auth.serializer())
+                    subclass(AppNavKey.Home::class, AppNavKey.Home.serializer())
                     subclass(AppNavKey.Dialogs::class, AppNavKey.Dialogs.serializer())
+                    subclass(AppNavKey.Settings::class, AppNavKey.Settings.serializer())
                     subclass(AppNavKey.Chat::class, AppNavKey.Chat.serializer())
                 }
             }
@@ -55,8 +59,23 @@ fun AppRoot() {
                         entryKey = key,
                         onSignedIn = {
                             backStack.clear()
-                            backStack.add(AppNavKey.Dialogs)
+                            backStack.add(AppNavKey.Home)
                         }
+                    )
+                }
+
+                is AppNavKey.Home -> NavEntry(key) {
+                    HomeScreenBinding(
+                        entryKey = key,
+                        onOpenDialogs = { backStack.add(AppNavKey.Dialogs) },
+                        onOpenSettings = { backStack.add(AppNavKey.Settings) },
+                    )
+                }
+
+                is AppNavKey.Settings -> NavEntry(key) {
+                    SettingsScreenBinding(
+                        entryKey = key,
+                        onBack = { backStack.removeLastOrNull() }
                     )
                 }
 

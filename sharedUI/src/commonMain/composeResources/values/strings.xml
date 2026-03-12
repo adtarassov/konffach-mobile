@@ -17,6 +17,15 @@
     <string name="dialogs_title">Dialogs</string>
     <string name="dialogs_avatar">Avatar</string>
 
+    <!-- Home -->
+    <string name="home_title">Home</string>
+    <string name="home_open_dialogs">Open dialogs</string>
+
+    <!-- Settings -->
+    <string name="settings_title">Settings</string>
+    <string name="settings_content_placeholder">User settings (placeholder)</string>
+    <string name="home_settings_action">Settings</string>
+
     <!-- Chat -->
     <string name="chat_title">Chat %s</string>
     <string name="chat_back">Back</string>
