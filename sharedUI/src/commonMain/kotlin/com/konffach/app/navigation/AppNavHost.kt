@@ -3,8 +3,8 @@ package com.konffach.app.navigation
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.navigation3.rememberViewModelStoreNavEntryDecorator
@@ -24,8 +24,8 @@ import kotlinx.serialization.modules.SerializersModule
 import kotlinx.serialization.modules.polymorphic
 
 @Immutable
-class NavigationState(
-    val initialElements: List<NavKey>
+data class NavigationState(
+    val root: AppNavKey
 )
 
 /**
@@ -34,7 +34,7 @@ class NavigationState(
 @Composable
 fun AppRoot() {
     val appGraph = LocalAppScope.current
-    val viewModel = remember(Unit) { appGraph.navigationViewModel }
+    val viewModel = appGraph.navigationViewModel
     val state by viewModel.state.collectAsStateWithLifecycle()
 
     val backStack = rememberNavBackStack(
@@ -49,8 +49,13 @@ fun AppRoot() {
                 }
             }
         },
-        *state.initialElements.toTypedArray()
+        state.root
     )
+    val navigator = rememberAppNavigator(backStack)
+
+    LaunchedEffect(state.root) {
+        navigator.replaceRoot(state.root)
+    }
 
     NavDisplay(
         backStack = backStack,
@@ -61,37 +66,32 @@ fun AppRoot() {
         entryProvider = { key ->
             when (key) {
                 is AppNavKey.Auth -> NavEntry(key) {
-                    AuthScreenBinding(
-                        onSignedIn = {
-                            backStack.clear()
-                            backStack.add(AppNavKey.Home)
-                        }
-                    )
+                    AuthScreenBinding()
                 }
 
                 is AppNavKey.Home -> NavEntry(key) {
                     HomeScreenBinding(
-                        onOpenDialogs = { backStack.add(AppNavKey.Dialogs) },
-                        onOpenSettings = { backStack.add(AppNavKey.Settings) },
+                        onOpenDialogs = navigator::openDialogs,
+                        onOpenSettings = navigator::openSettings,
                     )
                 }
 
                 is AppNavKey.Settings -> NavEntry(key) {
                     SettingsScreenBinding(
-                        onBack = { backStack.removeLastOrNull() }
+                        onBack = navigator::goBack
                     )
                 }
 
                 is AppNavKey.Chat -> NavEntry(key) {
                     ChatScreenBinding(
                         dialogId = key.dialogId,
-                        onBack = { backStack.removeLastOrNull() }
+                        onBack = navigator::goBack
                     )
                 }
 
                 is AppNavKey.Dialogs -> NavEntry(key) {
                     DialogsScreenBinding(
-                        onOpenChat = { dialogId -> backStack.add(AppNavKey.Chat(dialogId)) }
+                        onOpenChat = navigator::openChat
                     )
                 }
 

@@ -19,18 +19,17 @@ import konffach.sharedui.generated.resources.settings_content_placeholder
 import konffach.sharedui.generated.resources.settings_title
 import org.jetbrains.compose.resources.stringResource
 
+sealed interface SettingsIntent
+
 data class SettingsScreenState(
-    val onIntent: (SettingsIntent) -> Unit,
-) {
-    companion object {
-        fun preview() = SettingsScreenState(onIntent = {})
-    }
-}
+    val onIntent: (SettingsIntent) -> Unit = {},
+)
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SettingsScreen(
     state: SettingsScreenState,
+    onBack: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -46,7 +45,7 @@ fun SettingsScreen(
                 )
             },
             navigationIcon = {
-                IconButton(onClick = { state.onIntent(SettingsIntent.BackClicked) }) {
+                IconButton(onClick = onBack) {
                     Text("←")
                 }
             },
@@ -65,5 +64,8 @@ fun SettingsScreen(
 @Preview
 @Composable
 private fun SettingsScreenPreview() {
-    SettingsScreen(state = SettingsScreenState.preview())
+    SettingsScreen(
+        state = SettingsScreenState(),
+        onBack = {},
+    )
 }

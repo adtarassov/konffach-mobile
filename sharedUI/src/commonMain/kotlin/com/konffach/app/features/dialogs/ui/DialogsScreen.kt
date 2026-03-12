@@ -25,14 +25,15 @@ import konffach.sharedui.generated.resources.Res
 import konffach.sharedui.generated.resources.dialogs_avatar
 import konffach.sharedui.generated.resources.dialogs_title
 
+sealed interface DialogsIntent
+
 data class DialogsScreenState(
     val dialogs: List<ChatSummary>,
-    val onIntent: (DialogsIntent) -> Unit,
+    val onIntent: (DialogsIntent) -> Unit = {},
 ) {
     companion object {
         val Default = DialogsScreenState(
             dialogs = emptyList(),
-            onIntent = {},
         )
     }
 }
@@ -41,6 +42,7 @@ data class DialogsScreenState(
 @Composable
 fun DialogsScreen(
     state: DialogsScreenState,
+    onOpenChat: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -65,7 +67,7 @@ fun DialogsScreen(
                 ListItem(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .clickable { state.onIntent(DialogsIntent.OpenChatClicked(chat.id)) },
+                        .clickable { onOpenChat(chat.id) },
                     leadingContent = {
                         AsyncImage(
                             modifier = Modifier.height(40.dp),
@@ -85,5 +87,8 @@ fun DialogsScreen(
 @Composable
 private fun DialogsScreenPreview() {
     val previewState = DialogsScreenState.Default
-    DialogsScreen(state = previewState)
+    DialogsScreen(
+        state = previewState,
+        onOpenChat = {},
+    )
 }

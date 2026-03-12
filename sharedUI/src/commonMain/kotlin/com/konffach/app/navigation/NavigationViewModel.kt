@@ -19,22 +19,18 @@ class NavigationViewModel(
         .map { tokens ->
             val accessToken = tokens?.accessToken
             NavigationState(
-                initialElements = listOf(
-                    if (accessToken.isNullOrBlank()) AppNavKey.Auth else AppNavKey.Home
-                )
+                root = if (accessToken.isNullOrBlank()) AppNavKey.Auth else AppNavKey.Home
             )
         }
         .stateIn(
             scope = viewModelScope,
             initialValue =
                 NavigationState(
-                    initialElements = listOf(
-                        if (tokensFlow.value?.accessToken.isNullOrBlank()) {
-                            AppNavKey.Auth
-                        } else {
-                            AppNavKey.Home
-                        }
-                    )
+                    root = if (tokensFlow.value?.accessToken.isNullOrBlank()) {
+                        AppNavKey.Auth
+                    } else {
+                        AppNavKey.Home
+                    }
                 ),
             started = SharingStarted.WhileSubscribed()
         )

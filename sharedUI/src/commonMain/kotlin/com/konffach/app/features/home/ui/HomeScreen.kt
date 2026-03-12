@@ -1,7 +1,6 @@
 package com.konffach.app.features.home.ui
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -30,11 +29,13 @@ import konffach.sharedui.generated.resources.home_settings_action
 import konffach.sharedui.generated.resources.home_title
 import org.jetbrains.compose.resources.stringResource
 
+sealed interface HomeIntent
+
 data class HomeScreenState(
     val isLoading: Boolean,
     val errorMessage: String?,
     val items: List<HomeItem>,
-    val onIntent: (HomeIntent) -> Unit,
+    val onIntent: (HomeIntent) -> Unit = {},
 ) {
     companion object {
         fun preview() = HomeScreenState(
@@ -44,7 +45,6 @@ data class HomeScreenState(
                 HomeItem("1", "Welcome", "Your conversations"),
                 HomeItem("2", "Quick start", "Open dialogs to chat"),
             ),
-            onIntent = {},
         )
     }
 }
@@ -53,6 +53,8 @@ data class HomeScreenState(
 @Composable
 fun HomeScreen(
     state: HomeScreenState,
+    onOpenDialogs: () -> Unit,
+    onOpenSettings: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     LoadingOverlay(isLoading = state.isLoading) {
@@ -70,7 +72,7 @@ fun HomeScreen(
                     )
                 },
                 actions = {
-                    IconButton(onClick = { state.onIntent(HomeIntent.SettingsClicked) }) {
+                    IconButton(onClick = onOpenSettings) {
                         Text(stringResource(Res.string.home_settings_action))
                     }
                 }
@@ -83,9 +85,7 @@ fun HomeScreen(
             ) {
                 items(state.items) { item ->
                     Card(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .clickable { state.onIntent(HomeIntent.ItemClicked(item)) },
+                        modifier = Modifier.fillMaxWidth(),
                         colors = CardDefaults.cardColors(
                             containerColor = MaterialTheme.colorScheme.surfaceVariant,
                         ),
@@ -107,7 +107,7 @@ fun HomeScreen(
 
             Button(
                 modifier = Modifier.fillMaxWidth(),
-                onClick = { state.onIntent(HomeIntent.OpenDialogsClicked) },
+                onClick = onOpenDialogs,
             ) {
                 Text(stringResource(Res.string.home_open_dialogs))
             }
@@ -118,5 +118,9 @@ fun HomeScreen(
 @Preview
 @Composable
 private fun HomeScreenPreview() {
-    HomeScreen(state = HomeScreenState.preview())
+    HomeScreen(
+        state = HomeScreenState.preview(),
+        onOpenDialogs = {},
+        onOpenSettings = {},
+    )
 }

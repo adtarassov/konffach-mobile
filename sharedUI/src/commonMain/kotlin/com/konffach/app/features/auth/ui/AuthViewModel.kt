@@ -8,11 +8,8 @@ import com.konffach.app.features.auth.screen.AuthTokens
 import com.konffach.app.network.ApiResult
 import dev.zacsweers.metro.AssistedFactory
 import dev.zacsweers.metro.AssistedInject
-import kotlinx.coroutines.channels.BufferOverflow
-import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -22,10 +19,6 @@ sealed interface AuthIntent {
     data class PasswordChanged(val value: String) : AuthIntent
     data object SignInClicked : AuthIntent
     data object SignUpClicked : AuthIntent
-}
-
-sealed interface AuthEffect {
-    data object AuthSucceeded : AuthEffect
 }
 
 @AssistedInject
@@ -44,12 +37,6 @@ class AuthViewModel(
         )
     )
     val state: StateFlow<AuthScreenState> = _state.asStateFlow()
-
-    private val _effects = MutableSharedFlow<AuthEffect>(
-        extraBufferCapacity = 1,
-        onBufferOverflow = BufferOverflow.DROP_OLDEST
-    )
-    val effects = _effects.asSharedFlow()
 
     private fun onIntent(intent: AuthIntent) {
         when (intent) {
@@ -81,7 +68,6 @@ class AuthViewModel(
                 is ApiResult.Success<AuthTokens> -> {
                     tokenRepository.save(result.data)
                     _state.update { it.copy(isLoading = false, errorMessage = null) }
-                    _effects.tryEmit(AuthEffect.AuthSucceeded)
                 }
             }
         }
@@ -95,14 +81,13 @@ class AuthViewModel(
             when (val result = authRepository.signUp(login, password)) {
                 is ApiResult.Error -> {
                     _state.update {
-                        it.copy(isLoading = false, errorMessage = "")
+                        it.copy(isLoading = false, errorMessage = result.error.message)
                     }
                 }
 
                 is ApiResult.Success<AuthTokens> -> {
                     tokenRepository.save(result.data)
                     _state.update { it.copy(isLoading = false, errorMessage = null) }
-                    _effects.tryEmit(AuthEffect.AuthSucceeded)
                 }
             }
         }

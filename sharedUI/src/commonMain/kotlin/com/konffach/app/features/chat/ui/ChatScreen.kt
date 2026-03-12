@@ -27,16 +27,17 @@ import konffach.sharedui.generated.resources.chat_message_input_mock
 import konffach.sharedui.generated.resources.chat_title
 import org.jetbrains.compose.resources.stringResource
 
+sealed interface ChatIntent
+
 data class ChatScreenState(
     val dialogId: String,
     val messages: List<ChatMessage>,
-    val onIntent: (ChatIntent) -> Unit,
+    val onIntent: (ChatIntent) -> Unit = {},
 ) {
     companion object {
         val Default = ChatScreenState(
             dialogId = "",
             messages = emptyList(),
-            onIntent = {},
         )
     }
 }
@@ -44,6 +45,7 @@ data class ChatScreenState(
 @Composable
 fun ChatScreen(
     state: ChatScreenState,
+    onBack: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -60,7 +62,7 @@ fun ChatScreen(
                 text = stringResource(Res.string.chat_title, state.dialogId),
                 style = MaterialTheme.typography.headlineMedium,
             )
-            Button(onClick = { state.onIntent(ChatIntent.BackClicked) }) {
+            Button(onClick = onBack) {
                 Text(stringResource(Res.string.chat_back))
             }
         }
@@ -102,5 +104,8 @@ fun ChatScreen(
 @Composable
 private fun ChatScreenPreview() {
     val previewState = ChatScreenState.Default
-    ChatScreen(state = previewState)
+    ChatScreen(
+        state = previewState,
+        onBack = {},
+    )
 }
