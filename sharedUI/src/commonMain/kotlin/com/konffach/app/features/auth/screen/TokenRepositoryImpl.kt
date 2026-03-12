@@ -27,7 +27,7 @@ class TokenRepositoryImpl(
         _tokensFlow.value = tokens
     }
 
-    override suspend fun clear() {
+    override fun clear() {
         settings.remove(KEY_ACCESS)
         settings.remove(KEY_REFRESH)
         _tokensFlow.value = null

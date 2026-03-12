@@ -24,6 +24,7 @@
     <!-- Settings -->
     <string name="settings_title">Settings</string>
     <string name="settings_content_placeholder">User settings (placeholder)</string>
+    <string name="settings_clear_tokens">Clear token</string>
     <string name="home_settings_action">Settings</string>
 
     <!-- Chat -->

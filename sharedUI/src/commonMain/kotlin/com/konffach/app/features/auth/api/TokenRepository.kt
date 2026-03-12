@@ -9,5 +9,5 @@ interface TokenRepository {
 
     suspend fun save(tokens: AuthTokens)
 
-    suspend fun clear()
+    fun clear()
 }

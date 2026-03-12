@@ -18,7 +18,7 @@ fun SettingsScreenBinding(
     val state by viewModel.state.collectAsStateWithLifecycle()
 
     SettingsScreen(
-        state = state,
+        state = state.copy(onIntent = viewModel::onIntent),
         onBack = onBack,
     )
 }
