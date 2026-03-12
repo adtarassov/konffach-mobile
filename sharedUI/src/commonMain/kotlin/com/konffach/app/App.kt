@@ -9,6 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import com.konffach.app.di.AppGraph
 import com.konffach.app.di.LocalAppScope
 import com.konffach.app.di.createAppGraph
 import com.konffach.app.navigation.AppRoot
@@ -19,7 +20,17 @@ fun App(
     onThemeChanged: @Composable (isDark: Boolean) -> Unit = {}
 ) {
     val appGraph = remember { createAppGraph() }
+    AppContent(
+        appGraph = appGraph,
+        onThemeChanged = onThemeChanged,
+    )
+}
 
+@Composable
+internal fun AppContent(
+    appGraph: AppGraph,
+    onThemeChanged: @Composable (isDark: Boolean) -> Unit = {},
+) {
     AppTheme(onThemeChanged) {
         CompositionLocalProvider(LocalAppScope provides appGraph) {
             Surface(

@@ -1,7 +1,6 @@
 package com.konffach.app.features.auth.ui
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement.Absolute.spacedBy
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -19,6 +18,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextAlign
@@ -80,7 +80,9 @@ fun AuthScreen(
                 onValueChange = { state.onIntent(AuthIntent.LoginChanged(it)) },
                 label = { Text(stringResource(Res.string.auth_login)) },
                 singleLine = true,
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .testTag(AuthScreenTestTags.LOGIN_INPUT),
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
                 enabled = !state.isLoading,
             )
@@ -91,7 +93,9 @@ fun AuthScreen(
                 singleLine = true,
                 visualTransformation = PasswordVisualTransformation(),
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .testTag(AuthScreenTestTags.PASSWORD_INPUT),
                 enabled = !state.isLoading,
             )
             state.errorMessage?.let { msg ->
@@ -103,7 +107,9 @@ fun AuthScreen(
                 )
             }
             Button(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .testTag(AuthScreenTestTags.SIGN_IN_BUTTON),
                 onClick = { state.onIntent(AuthIntent.SignInClicked) },
                 enabled = !state.isLoading,
             ) {
