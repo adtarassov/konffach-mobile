@@ -2,23 +2,22 @@ package com.konffach.app.features.chat.ui
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.konffach.app.di.LocalAppScope
-import com.konffach.app.navigation.AppNavKey
+import com.konffach.app.di.metroViewModel
 import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun ChatScreenBinding(
-    entryKey: AppNavKey.Chat,
+    dialogId: String,
     onBack: () -> Unit,
 ) {
     val appGraph = LocalAppScope.current
-    val viewModel = remember(entryKey.dialogId) {
-        appGraph.chatViewModelFactory.create(entryKey.dialogId)
+    val viewModel: ChatViewModel = metroViewModel {
+        appGraph.chatViewModelFactory.create(dialogId)
     }
-    val state by viewModel.state.collectAsState()
+    val state by viewModel.state.collectAsStateWithLifecycle()
 
     LaunchedEffect(viewModel) {
         viewModel.effects.collectLatest { effect ->

@@ -7,9 +7,11 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.navigation3.rememberViewModelStoreNavEntryDecorator
 import androidx.navigation3.runtime.NavEntry
 import androidx.navigation3.runtime.NavKey
 import androidx.navigation3.runtime.rememberNavBackStack
+import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
 import androidx.savedstate.serialization.SavedStateConfiguration
 import com.konffach.app.di.LocalAppScope
@@ -52,11 +54,14 @@ fun AppRoot() {
 
     NavDisplay(
         backStack = backStack,
+        entryDecorators = listOf(
+            rememberSaveableStateHolderNavEntryDecorator(),
+            rememberViewModelStoreNavEntryDecorator(),
+        ),
         entryProvider = { key ->
             when (key) {
                 is AppNavKey.Auth -> NavEntry(key) {
                     AuthScreenBinding(
-                        entryKey = key,
                         onSignedIn = {
                             backStack.clear()
                             backStack.add(AppNavKey.Home)
@@ -66,7 +71,6 @@ fun AppRoot() {
 
                 is AppNavKey.Home -> NavEntry(key) {
                     HomeScreenBinding(
-                        entryKey = key,
                         onOpenDialogs = { backStack.add(AppNavKey.Dialogs) },
                         onOpenSettings = { backStack.add(AppNavKey.Settings) },
                     )
@@ -74,21 +78,19 @@ fun AppRoot() {
 
                 is AppNavKey.Settings -> NavEntry(key) {
                     SettingsScreenBinding(
-                        entryKey = key,
                         onBack = { backStack.removeLastOrNull() }
                     )
                 }
 
                 is AppNavKey.Chat -> NavEntry(key) {
                     ChatScreenBinding(
-                        entryKey = key,
+                        dialogId = key.dialogId,
                         onBack = { backStack.removeLastOrNull() }
                     )
                 }
 
                 is AppNavKey.Dialogs -> NavEntry(key) {
                     DialogsScreenBinding(
-                        entryKey = key,
                         onOpenChat = { dialogId -> backStack.add(AppNavKey.Chat(dialogId)) }
                     )
                 }
@@ -99,5 +101,3 @@ fun AppRoot() {
         modifier = Modifier.fillMaxSize()
     )
 }
-
-
