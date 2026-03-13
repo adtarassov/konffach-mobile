@@ -9,6 +9,7 @@ import androidx.compose.ui.test.performTextInput
 import androidx.compose.ui.test.runComposeUiTest
 import com.konffach.app.di.AppGraph
 import com.konffach.app.features.auth.api.AuthRepository
+import com.konffach.app.features.auth.api.SessionState
 import com.konffach.app.features.auth.api.TokenRepository
 import com.konffach.app.features.auth.screen.AuthTokens
 import com.konffach.app.features.auth.ui.AuthScreenTestTags
@@ -130,16 +131,16 @@ private class FakeAuthRepository : AuthRepository {
 }
 
 private class FakeTokenRepository : TokenRepository {
-    private val mutableTokens = MutableStateFlow<AuthTokens?>(null)
+    private val mutableSessionState = MutableStateFlow<SessionState>(SessionState.Unauthenticated)
 
-    override val tokensFlow: StateFlow<AuthTokens?> = mutableTokens.asStateFlow()
+    override val sessionState: StateFlow<SessionState> = mutableSessionState.asStateFlow()
 
     override suspend fun save(tokens: AuthTokens) {
-        mutableTokens.value = tokens
+        mutableSessionState.value = SessionState.Authenticated(tokens)
     }
 
     override fun clear() {
-        mutableTokens.value = null
+        mutableSessionState.value = SessionState.Unauthenticated
     }
 }
 

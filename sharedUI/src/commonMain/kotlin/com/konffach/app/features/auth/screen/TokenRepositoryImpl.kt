@@ -1,6 +1,7 @@
 package com.konffach.app.features.auth.screen
 
 import com.konffach.app.di.AppScope
+import com.konffach.app.features.auth.api.SessionState
 import com.konffach.app.features.auth.api.TokenRepository
 import com.russhwolf.settings.Settings
 import dev.zacsweers.metro.Inject
@@ -18,19 +19,20 @@ class TokenRepositoryImpl(
     private val settings: Settings,
 ) : TokenRepository {
 
-    private val _tokensFlow = MutableStateFlow(loadFromSettings())
-    override val tokensFlow: StateFlow<AuthTokens?> = _tokensFlow.asStateFlow()
+    private val _sessionState = MutableStateFlow(loadFromSettings().toSessionState())
+
+    override val sessionState: StateFlow<SessionState> = _sessionState.asStateFlow()
 
     override suspend fun save(tokens: AuthTokens) {
         settings.putString(KEY_ACCESS, tokens.accessToken)
         settings.putString(KEY_REFRESH, tokens.refreshToken)
-        _tokensFlow.value = tokens
+        _sessionState.value = SessionState.Authenticated(tokens)
     }
 
     override fun clear() {
         settings.remove(KEY_ACCESS)
         settings.remove(KEY_REFRESH)
-        _tokensFlow.value = null
+        _sessionState.value = SessionState.Unauthenticated
     }
 
     private fun loadFromSettings(): AuthTokens? {
@@ -40,5 +42,13 @@ class TokenRepositoryImpl(
             accessToken = accessToken,
             refreshToken = refreshToken,
         )
+    }
+
+    private fun AuthTokens?.toSessionState(): SessionState {
+        return if (this == null) {
+            SessionState.Unauthenticated
+        } else {
+            SessionState.Authenticated(this)
+        }
     }
 }

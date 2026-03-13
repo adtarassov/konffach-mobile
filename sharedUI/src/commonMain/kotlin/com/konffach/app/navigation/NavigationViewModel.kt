@@ -2,6 +2,7 @@ package com.konffach.app.navigation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.konffach.app.features.auth.api.SessionState
 import com.konffach.app.features.auth.api.TokenRepository
 import dev.zacsweers.metro.Inject
 import kotlinx.coroutines.flow.SharingStarted
@@ -13,25 +14,25 @@ class NavigationViewModel(
     tokenRepository: TokenRepository
 ) : ViewModel() {
 
-    private val tokensFlow = tokenRepository.tokensFlow
+    private val sessionState = tokenRepository.sessionState
 
-    val state = tokensFlow
-        .map { tokens ->
-            val accessToken = tokens?.accessToken
+    val state = sessionState
+        .map { currentSessionState ->
             NavigationState(
-                root = if (accessToken.isNullOrBlank()) AppNavKey.Auth else AppNavKey.Home
+                root = when (currentSessionState) {
+                    is SessionState.Authenticated -> AppNavKey.Home
+                    SessionState.Unauthenticated -> AppNavKey.Auth
+                }
             )
         }
         .stateIn(
             scope = viewModelScope,
-            initialValue =
-                NavigationState(
-                    root = if (tokensFlow.value?.accessToken.isNullOrBlank()) {
-                        AppNavKey.Auth
-                    } else {
-                        AppNavKey.Home
-                    }
-                ),
+            initialValue = NavigationState(
+                root = when (sessionState.value) {
+                    is SessionState.Authenticated -> AppNavKey.Home
+                    SessionState.Unauthenticated -> AppNavKey.Auth
+                }
+            ),
             started = SharingStarted.WhileSubscribed()
         )
 }
