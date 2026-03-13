@@ -60,21 +60,12 @@ fun createHttpClient(tokenRepository: TokensRepository): HttpClient = createPlat
 
             refreshTokens {
                 val refreshToken = oldTokens?.refreshToken ?: return@refreshTokens null
-                try {
-                    val refreshedTokens = client.post(PATH_REFRESH_TOKEN) {
-                        markAsRefreshTokenRequest()
-                        setBody(RefreshTokenRequest(refreshToken = refreshToken))
-                    }.body<AuthTokens>()
-
-                    tokenRepository.save(refreshedTokens)
-                    BearerTokens(
-                        accessToken = refreshedTokens.accessToken,
-                        refreshToken = refreshedTokens.refreshToken,
-                    )
-                } catch (_: Exception) {
-                    tokenRepository.clear()
-                    null
-                }
+                val refreshedTokens = client.post(PATH_REFRESH_TOKEN) {
+                    markAsRefreshTokenRequest()
+                    setBody(RefreshTokenRequest(refreshToken = refreshToken))
+                }.body<AuthTokens>()
+                tokenRepository.save(refreshedTokens)
+                tokenRepository.currentBearerTokens()
             }
 
             sendWithoutRequest { request ->
