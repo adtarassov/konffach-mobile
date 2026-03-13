@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -18,9 +19,12 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import konffach.sharedui.generated.resources.Res
+import konffach.sharedui.generated.resources.action_back
+import konffach.sharedui.generated.resources.ic_arrow_back_ios
 import konffach.sharedui.generated.resources.settings_clear_tokens
 import konffach.sharedui.generated.resources.settings_content_placeholder
 import konffach.sharedui.generated.resources.settings_title
+import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 
 sealed interface SettingsIntent {
@@ -52,7 +56,10 @@ fun SettingsScreen(
             },
             navigationIcon = {
                 IconButton(onClick = onBack) {
-                    Text("←")
+                    Icon(
+                        painter = painterResource(Res.drawable.ic_arrow_back_ios),
+                        contentDescription = stringResource(Res.string.action_back),
+                    )
                 }
             },
         )

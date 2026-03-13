@@ -12,6 +12,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.IconButton
@@ -27,6 +28,8 @@ import konffach.sharedui.generated.resources.Res
 import konffach.sharedui.generated.resources.home_open_dialogs
 import konffach.sharedui.generated.resources.home_settings_action
 import konffach.sharedui.generated.resources.home_title
+import konffach.sharedui.generated.resources.ic_settings
+import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 
 sealed interface HomeIntent
@@ -76,7 +79,10 @@ fun HomeScreen(
                         onClick = onOpenSettings,
                         modifier = Modifier.testTag(HomeScreenTestTags.SETTINGS_BUTTON),
                     ) {
-                        Text(stringResource(Res.string.home_settings_action))
+                        Icon(
+                            painter = painterResource(Res.drawable.ic_settings),
+                            contentDescription = stringResource(Res.string.home_settings_action),
+                        )
                     }
                 }
             )
