@@ -2,7 +2,7 @@ package com.konffach.app.features.auth.screen
 
 import com.konffach.app.di.AppScope
 import com.konffach.app.features.auth.api.SessionState
-import com.konffach.app.features.auth.api.TokenRepository
+import com.konffach.app.features.auth.api.TokensRepository
 import com.russhwolf.settings.Settings
 import dev.zacsweers.metro.Inject
 import dev.zacsweers.metro.SingleIn
@@ -15,9 +15,9 @@ private const val KEY_REFRESH = "auth_refresh_token"
 
 @Inject
 @SingleIn(AppScope::class)
-class TokenRepositoryImpl(
+class TokensRepositoryImpl(
     private val settings: Settings,
-) : TokenRepository {
+) : TokensRepository {
 
     private val _sessionState = MutableStateFlow(loadFromSettings().toSessionState())
 

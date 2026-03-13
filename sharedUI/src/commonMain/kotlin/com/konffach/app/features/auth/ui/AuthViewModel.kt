@@ -3,9 +3,7 @@ package com.konffach.app.features.auth.ui
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.konffach.app.features.auth.api.AuthRepository
-import com.konffach.app.features.auth.api.TokenRepository
-import com.konffach.app.features.auth.screen.AuthTokens
-import com.konffach.app.network.ApiResult
+import com.konffach.app.features.auth.api.TokensRepository
 import dev.zacsweers.metro.AssistedFactory
 import dev.zacsweers.metro.AssistedInject
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -24,7 +22,7 @@ sealed interface AuthIntent {
 @AssistedInject
 class AuthViewModel(
     private val authRepository: AuthRepository,
-    private val tokenRepository: TokenRepository,
+    private val tokenRepository: TokensRepository,
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(
@@ -58,17 +56,14 @@ class AuthViewModel(
         val password = _state.value.password
         viewModelScope.launch {
             _state.update { it.copy(isLoading = true, errorMessage = null) }
-            when (val result = authRepository.signIn(login, password)) {
-                is ApiResult.Error -> {
-                    _state.update {
-                        it.copy(isLoading = false, errorMessage = result.error.message)
-                    }
+            try {
+                val tokens = authRepository.signIn(login, password)
+                tokenRepository.save(tokens)
+                _state.update {
+                    it.copy(isLoading = false)
                 }
-
-                is ApiResult.Success<AuthTokens> -> {
-                    tokenRepository.save(result.data)
-                    _state.update { it.copy(isLoading = false, errorMessage = null) }
-                }
+            } catch (e: Exception) {
+                _state.update { it.copy(isLoading = false, errorMessage = e.message) }
             }
         }
     }
@@ -78,17 +73,14 @@ class AuthViewModel(
         val password = _state.value.password
         viewModelScope.launch {
             _state.update { it.copy(isLoading = true, errorMessage = null) }
-            when (val result = authRepository.signUp(login, password)) {
-                is ApiResult.Error -> {
-                    _state.update {
-                        it.copy(isLoading = false, errorMessage = result.error.message)
-                    }
+            try {
+                val tokens = authRepository.signUp(login, password)
+                tokenRepository.save(tokens)
+                _state.update {
+                    it.copy(isLoading = false)
                 }
-
-                is ApiResult.Success<AuthTokens> -> {
-                    tokenRepository.save(result.data)
-                    _state.update { it.copy(isLoading = false, errorMessage = null) }
-                }
+            } catch (e: Exception) {
+                _state.update { it.copy(isLoading = false, errorMessage = e.message) }
             }
         }
     }

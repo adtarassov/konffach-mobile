@@ -1,6 +1,7 @@
 package com.konffach.app.di
 
 import com.konffach.app.network.createHttpClient
+import com.konffach.app.features.auth.api.TokensRepository
 import com.russhwolf.settings.Settings
 import dev.zacsweers.metro.BindingContainer
 import dev.zacsweers.metro.Provides
@@ -20,5 +21,5 @@ object CoreProviders {
 
     @Provides
     @SingleIn(AppScope::class)
-    fun provideHttpClient(): HttpClient = createHttpClient()
+    fun provideHttpClient(tokenRepository: TokensRepository): HttpClient = createHttpClient(tokenRepository)
 }

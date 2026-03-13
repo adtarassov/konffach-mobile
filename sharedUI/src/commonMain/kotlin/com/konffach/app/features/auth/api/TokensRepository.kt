@@ -8,11 +8,16 @@ sealed interface SessionState {
     data object Unauthenticated : SessionState
 }
 
-interface TokenRepository {
+interface TokensRepository {
 
     val sessionState: StateFlow<SessionState>
 
     suspend fun save(tokens: AuthTokens)
+
+    fun currentAuthTokens(): AuthTokens? {
+        val sessionState = sessionState.value as? SessionState.Authenticated ?: return null
+        return sessionState.tokens
+    }
 
     fun clear()
 }

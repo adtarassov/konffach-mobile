@@ -7,9 +7,11 @@ import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.post
 import io.ktor.client.request.setBody
+import kotlinx.serialization.Serializable
 
-private const val PATH_SIGN_IN = "users/login"
-private const val PATH_SIGN_UP = "users/register"
+const val PATH_SIGN_IN = "users/login"
+const val PATH_SIGN_UP = "users/register"
+const val PATH_REFRESH_TOKEN = "users/refresh"
 
 @Inject
 @SingleIn(AppScope::class)
@@ -29,3 +31,14 @@ class AuthApi(
         }.body()
     }
 }
+
+@Serializable
+data class AuthRequest(
+    val login: String,
+    val password: String,
+)
+
+@Serializable
+data class RefreshTokenRequest(
+    val refreshToken: String,
+)

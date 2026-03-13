@@ -2,15 +2,15 @@ package com.konffach.app
 
 import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.onAllNodesWithTag
-import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.onNodeWithTag
+import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextInput
 import androidx.compose.ui.test.runComposeUiTest
 import com.konffach.app.di.AppGraph
 import com.konffach.app.features.auth.api.AuthRepository
 import com.konffach.app.features.auth.api.SessionState
-import com.konffach.app.features.auth.api.TokenRepository
+import com.konffach.app.features.auth.api.TokensRepository
 import com.konffach.app.features.auth.screen.AuthTokens
 import com.konffach.app.features.auth.ui.AuthScreenTestTags
 import com.konffach.app.features.auth.ui.AuthViewModel
@@ -26,8 +26,6 @@ import com.konffach.app.features.home.ui.HomeViewModel
 import com.konffach.app.features.settings.ui.SettingsScreenTestTags
 import com.konffach.app.features.settings.ui.SettingsViewModel
 import com.konffach.app.navigation.NavigationViewModel
-import com.konffach.app.network.ApiResult
-import com.konffach.app.network.NetworkError
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -71,7 +69,7 @@ class AuthFlowTest {
 }
 
 private class FakeAppGraph : AppGraph {
-    private val tokenRepository = FakeTokenRepository()
+    private val tokenRepository = FakeTokensRepository()
     private val authRepository = FakeAuthRepository()
     private val homeRepository = FakeHomeRepository()
     private val chatRepository = FakeChatRepository()
@@ -112,25 +110,21 @@ private class FakeAppGraph : AppGraph {
 }
 
 private class FakeAuthRepository : AuthRepository {
-    override suspend fun signIn(login: String, password: String): ApiResult<AuthTokens> {
+    override suspend fun signIn(login: String, password: String): AuthTokens {
         return if (login == "123" && password == "123") {
-            ApiResult.Success(
-                AuthTokens(
-                    accessToken = "access-token",
-                    refreshToken = "refresh-token",
-                )
+            AuthTokens(
+                accessToken = "access-token",
+                refreshToken = "refresh-token",
             )
         } else {
-            ApiResult.Error(NetworkError.UnknownError("Invalid credentials"))
+            throw IllegalStateException("Error with username pr password")
         }
     }
 
-    override suspend fun signUp(login: String, password: String): ApiResult<AuthTokens> {
-        return signIn(login, password)
-    }
+    override suspend fun signUp(login: String, password: String) = signIn(login, password)
 }
 
-private class FakeTokenRepository : TokenRepository {
+private class FakeTokensRepository : TokensRepository {
     private val mutableSessionState = MutableStateFlow<SessionState>(SessionState.Unauthenticated)
 
     override val sessionState: StateFlow<SessionState> = mutableSessionState.asStateFlow()

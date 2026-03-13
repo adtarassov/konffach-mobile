@@ -6,8 +6,8 @@ import com.konffach.app.features.chat.api.ChatRepository
 import com.konffach.app.features.chat.screen.InMemoryChatRepository
 import com.konffach.app.features.home.api.HomeRepository
 import com.konffach.app.features.home.screen.HomeRepositoryImpl
-import com.konffach.app.features.auth.api.TokenRepository
-import com.konffach.app.features.auth.screen.TokenRepositoryImpl
+import com.konffach.app.features.auth.api.TokensRepository
+import com.konffach.app.features.auth.screen.TokensRepositoryImpl
 import dev.zacsweers.metro.Binds
 import dev.zacsweers.metro.BindingContainer
 
@@ -19,7 +19,7 @@ import dev.zacsweers.metro.BindingContainer
 interface RepositoryBindings {
 
     @Binds val AuthRepositoryImpl.bind: AuthRepository
-    @Binds val TokenRepositoryImpl.bind: TokenRepository
+    @Binds val TokensRepositoryImpl.bind: TokensRepository
     @Binds val HomeRepositoryImpl.bind: HomeRepository
     @Binds val InMemoryChatRepository.bind: ChatRepository
 }
