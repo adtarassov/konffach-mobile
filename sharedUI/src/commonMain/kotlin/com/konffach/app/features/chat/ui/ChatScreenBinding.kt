@@ -10,6 +10,7 @@ import com.konffach.app.di.metroViewModel
 fun ChatScreenBinding(
     dialogId: String,
     onBack: () -> Unit,
+    onOpenSettings: () -> Unit,
 ) {
     val appGraph = LocalAppScope.current
     val viewModel: ChatViewModel = metroViewModel {
@@ -20,5 +21,6 @@ fun ChatScreenBinding(
     ChatScreen(
         state = state,
         onBack = onBack,
+        onOpenSettings = onOpenSettings
     )
 }

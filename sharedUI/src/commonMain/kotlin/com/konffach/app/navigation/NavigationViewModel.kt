@@ -20,7 +20,7 @@ class NavigationViewModel(
         .map { currentSessionState ->
             NavigationState(
                 root = when (currentSessionState) {
-                    is SessionState.Authenticated -> AppNavKey.Home
+                    is SessionState.Authenticated -> AppNavKey.Chat("konffach")
                     SessionState.Unauthenticated -> AppNavKey.Auth
                 }
             )
@@ -29,7 +29,7 @@ class NavigationViewModel(
             scope = viewModelScope,
             initialValue = NavigationState(
                 root = when (sessionState.value) {
-                    is SessionState.Authenticated -> AppNavKey.Home
+                    is SessionState.Authenticated -> AppNavKey.Chat("konffach")
                     SessionState.Unauthenticated -> AppNavKey.Auth
                 }
             ),

@@ -85,7 +85,8 @@ fun AppRoot() {
                 is AppNavKey.Chat -> NavEntry(key) {
                     ChatScreenBinding(
                         dialogId = key.dialogId,
-                        onBack = navigator::goBack
+                        onBack = navigator::goBack,
+                        onOpenSettings = navigator::openSettings
                     )
                 }
 

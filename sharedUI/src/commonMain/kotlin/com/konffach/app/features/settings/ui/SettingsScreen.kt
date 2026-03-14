@@ -21,8 +21,7 @@ import androidx.compose.ui.unit.dp
 import konffach.sharedui.generated.resources.Res
 import konffach.sharedui.generated.resources.action_back
 import konffach.sharedui.generated.resources.ic_arrow_back_ios
-import konffach.sharedui.generated.resources.settings_clear_tokens
-import konffach.sharedui.generated.resources.settings_content_placeholder
+import konffach.sharedui.generated.resources.log_out
 import konffach.sharedui.generated.resources.settings_title
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
@@ -51,7 +50,7 @@ fun SettingsScreen(
             title = {
                 Text(
                     text = stringResource(Res.string.settings_title),
-                    style = MaterialTheme.typography.headlineMedium,
+                    style = MaterialTheme.typography.titleLarge,
                 )
             },
             navigationIcon = {
@@ -63,23 +62,16 @@ fun SettingsScreen(
                 }
             },
         )
-
         HorizontalDivider()
-
-        Text(
-            text = stringResource(Res.string.settings_content_placeholder),
-            style = MaterialTheme.typography.bodyLarge,
-            modifier = Modifier.padding(16.dp),
-        )
 
         Button(
             onClick = { state.onIntent(SettingsIntent.ClearTokensClicked) },
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp)
-                .testTag(SettingsScreenTestTags.CLEAR_TOKENS_BUTTON),
+                .testTag(SettingsScreenTestTags.LOG_OUT),
         ) {
-            Text(stringResource(Res.string.settings_clear_tokens))
+            Text(stringResource(Res.string.log_out))
         }
     }
 }

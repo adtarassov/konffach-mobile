@@ -59,7 +59,7 @@ class AuthFlowTest {
         waitUntil(timeoutMillis = 5_000) {
             runCatching { onNodeWithText("Settings").fetchSemanticsNode() }.isSuccess
         }
-        onNodeWithTag(SettingsScreenTestTags.CLEAR_TOKENS_BUTTON).performClick()
+        onNodeWithTag(SettingsScreenTestTags.LOG_OUT).performClick()
 
         waitUntil(timeoutMillis = 5_000) {
             onAllNodesWithTag(AuthScreenTestTags.SIGN_IN_BUTTON).fetchSemanticsNodes().isNotEmpty()
