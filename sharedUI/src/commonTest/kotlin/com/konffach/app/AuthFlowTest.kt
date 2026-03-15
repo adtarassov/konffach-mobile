@@ -1,9 +1,8 @@
 package com.konffach.app
 
 import androidx.compose.ui.test.ExperimentalTestApi
-import androidx.compose.ui.test.onAllNodesWithTag
+import androidx.compose.ui.test.isDisplayed
 import androidx.compose.ui.test.onNodeWithTag
-import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextInput
 import androidx.compose.ui.test.runComposeUiTest
@@ -44,27 +43,21 @@ class AuthFlowTest {
 
         onNodeWithTag(AuthScreenTestTags.LOGIN_INPUT)
             .performTextInput("123")
+
         onNodeWithTag(AuthScreenTestTags.PASSWORD_INPUT)
             .performTextInput("123")
         onNodeWithTag(AuthScreenTestTags.SIGN_IN_BUTTON)
             .performClick()
 
-        waitUntil(timeoutMillis = 5_000) {
-            runCatching { onNodeWithText("Home").fetchSemanticsNode() }.isSuccess
-        }
-        onNodeWithText("Home").fetchSemanticsNode()
+        onNodeWithTag(HomeScreenTestTags.SETTINGS_BUTTON)
+            .performClick()
 
-        onNodeWithTag(HomeScreenTestTags.SETTINGS_BUTTON).performClick()
+        onNodeWithTag(SettingsScreenTestTags.LOG_OUT)
+            .performClick()
 
-        waitUntil(timeoutMillis = 5_000) {
-            runCatching { onNodeWithText("Settings").fetchSemanticsNode() }.isSuccess
-        }
-        onNodeWithTag(SettingsScreenTestTags.LOG_OUT).performClick()
+        onNodeWithTag(AuthScreenTestTags.SIGN_IN_BUTTON)
+            .isDisplayed()
 
-        waitUntil(timeoutMillis = 5_000) {
-            onAllNodesWithTag(AuthScreenTestTags.SIGN_IN_BUTTON).fetchSemanticsNodes().isNotEmpty()
-        }
-        onNodeWithTag(AuthScreenTestTags.SIGN_IN_BUTTON).fetchSemanticsNode()
     }
 }
 

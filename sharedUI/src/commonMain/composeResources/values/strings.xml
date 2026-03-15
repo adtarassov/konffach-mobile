@@ -27,6 +27,7 @@
     <string name="log_out">Log out</string>
     <string name="home_settings_action">Settings</string>
     <string name="action_back">Back</string>
+    <string name="message">Message</string>
 
     <!-- Chat -->
     <string name="Konffach">Konffach</string>

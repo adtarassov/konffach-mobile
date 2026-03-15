@@ -1,9 +1,11 @@
 package com.konffach.app
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.windowInsetsPadding
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
@@ -33,11 +35,7 @@ internal fun AppContent(
 ) {
     AppTheme(onThemeChanged) {
         CompositionLocalProvider(LocalAppScope provides appGraph) {
-            Surface(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .windowInsetsPadding(WindowInsets.safeDrawing)
-            ) {
+            Surface(modifier = Modifier.fillMaxSize()) {
                 AppRoot()
             }
         }

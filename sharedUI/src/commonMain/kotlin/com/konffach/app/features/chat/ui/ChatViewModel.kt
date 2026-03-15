@@ -8,6 +8,7 @@ import dev.zacsweers.metro.AssistedInject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 
 @AssistedInject
 class ChatViewModel(
@@ -19,11 +20,25 @@ class ChatViewModel(
         ChatScreenState(
             dialogId = dialogId,
             messages = repository.getMessages(dialogId),
+            onIntent = ::onIntent,
+            inputFieldState = InputFiledState(
+                value = ""
+            )
         ),
     )
     val state: StateFlow<ChatScreenState> = _state.asStateFlow()
 
-    private fun onIntent(intent: ChatIntent) = Unit
+    private fun onIntent(intent: ChatIntent) {
+        when (intent) {
+            is ChatIntent.InputFieldChanged -> _state.update {
+                it.copy(inputFieldState = it.inputFieldState.copy(value = intent.value))
+            }
+
+            ChatIntent.SendMessage -> {
+
+            }
+        }
+    }
 
     @AssistedFactory
     fun interface Factory {

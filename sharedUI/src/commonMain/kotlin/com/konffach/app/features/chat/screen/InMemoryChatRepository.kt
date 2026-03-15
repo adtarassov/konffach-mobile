@@ -48,6 +48,55 @@ class InMemoryChatRepository : ChatRepository {
                 text = "Looks good, navigation works.",
                 isMine = true,
             ),
+            ChatMessage(
+                id = "m3",
+                dialogId = dialogId,
+                author = "Me",
+                text = "Looks good, navigation works.",
+                isMine = true,
+            ),
+            ChatMessage(
+                id = "m4",
+                dialogId = dialogId,
+                author = "Me",
+                text = "Looks good, navigation works.",
+                isMine = true,
+            ),
+            ChatMessage(
+                id = "m5",
+                dialogId = dialogId,
+                author = "Me",
+                text = "Looks good, navigation works.",
+                isMine = true,
+            ),
+            ChatMessage(
+                id = "m6",
+                dialogId = dialogId,
+                author = "Me",
+                text = "Looks good, navigation works.",
+                isMine = true,
+            ),
+            ChatMessage(
+                id = "m7",
+                dialogId = dialogId,
+                author = "Me",
+                text = "Looks good, navigation works.",
+                isMine = true,
+            ),
+            ChatMessage(
+                id = "m8",
+                dialogId = dialogId,
+                author = "Me",
+                text = "Looks good, navigation works.",
+                isMine = true,
+            ),
+            ChatMessage(
+                id = "m9",
+                dialogId = dialogId,
+                author = "Me",
+                text = "Looks good, navigation works.",
+                isMine = true,
+            ),
         )
     }
 }
