@@ -3,9 +3,9 @@ package com.konffach.app.features.chat.ui
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
-import androidx.compose.foundation.layout.exclude
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.imePadding
@@ -14,7 +14,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -31,7 +30,6 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.konffach.app.features.chat.screen.ChatMessage
 import com.konffach.app.features.home.ui.HomeScreenTestTags
 import konffach.sharedui.generated.resources.Res
 import konffach.sharedui.generated.resources.home_settings_action
@@ -47,14 +45,18 @@ sealed interface ChatIntent {
 data class ChatScreenState(
     val dialogId: String,
     val inputFieldState: InputFiledState,
-    val messages: List<ChatMessage>,
+    val messages: List<ChatMessageItemState>,
     val onIntent: (ChatIntent) -> Unit,
 ) {
     companion object {
         fun preview() = ChatScreenState(
             dialogId = "",
             inputFieldState = InputFiledState.preview(),
-            messages = emptyList(),
+            messages = listOf(
+                ChatMessageItemState.previewOther(),
+                ChatMessageItemState.previewMine(),
+                ChatMessageItemState.previewMine(),
+            ),
             onIntent = {}
         )
     }
@@ -69,6 +71,12 @@ fun ChatScreen(
     modifier: Modifier = Modifier,
 ) {
     val listState = rememberLazyListState()
+
+    LaunchedEffect(state.messages.size) {
+        if (state.messages.isNotEmpty()) {
+            listState.animateScrollToItem(0)
+        }
+    }
 
     Column(
         modifier = modifier
@@ -109,20 +117,19 @@ fun ChatScreen(
                 )
         ) {
             LazyColumn(
-                modifier = Modifier.fillMaxWidth().weight(1f),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(1f),
+                contentPadding = PaddingValues(16.dp),
                 state = listState,
-                verticalArrangement = Arrangement.spacedBy(300.dp),
+                verticalArrangement = Arrangement.spacedBy(12.dp),
                 reverseLayout = true
             ) {
-                items(state.messages) { message ->
-                    Text(
-                        text = "${message.author}: ${message.text}",
-                        style = if (message.isMine) {
-                            MaterialTheme.typography.labelLarge
-                        } else {
-                            MaterialTheme.typography.labelLarge
-                        },
-                    )
+                items(
+                    items = state.messages.asReversed(),
+                    key = { message -> message.id },
+                ) { message ->
+                    ChatMessageItem(state = message)
                 }
             }
 
@@ -130,8 +137,7 @@ fun ChatScreen(
                 state = state.inputFieldState,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .background(MaterialTheme.colorScheme.background)
-                    .padding(16.dp)
+                    .padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
             )
         }
     }

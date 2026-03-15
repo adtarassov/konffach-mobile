@@ -2,6 +2,8 @@ package com.konffach.app.features.chat.ui
 
 import androidx.lifecycle.ViewModel
 import com.konffach.app.features.chat.api.ChatRepository
+import com.konffach.app.features.chat.screen.ChatMessage
+import com.konffach.app.features.chat.screen.ChatMessageContent
 import dev.zacsweers.metro.Assisted
 import dev.zacsweers.metro.AssistedFactory
 import dev.zacsweers.metro.AssistedInject
@@ -14,15 +16,20 @@ import kotlinx.coroutines.flow.update
 class ChatViewModel(
     @Assisted val dialogId: String,
     repository: ChatRepository,
+    private val chatMessageItemViewModelFactory: ChatMessageItemViewModel.Factory,
 ) : ViewModel() {
+    private val messageItemViewModels = mutableListOf<ChatMessageItemViewModel>()
+    private val initialMessages = repository.getMessages(dialogId)
+    private var nextMessageId = initialMessages.size + 1
 
     private val _state = MutableStateFlow(
         ChatScreenState(
             dialogId = dialogId,
-            messages = repository.getMessages(dialogId),
+            messages = initialMessages.map(::createMessageItemState),
             onIntent = ::onIntent,
             inputFieldState = InputFiledState(
-                value = ""
+                value = "",
+                onIntent = ::onIntent,
             )
         ),
     )
@@ -35,9 +42,36 @@ class ChatViewModel(
             }
 
             ChatIntent.SendMessage -> {
-
+                sendMessage()
             }
         }
+    }
+
+    private fun sendMessage() {
+        val text = _state.value.inputFieldState.value.trim()
+        if (text.isBlank()) return
+
+        val newMessage = ChatMessage(
+            id = "local-$nextMessageId",
+            dialogId = dialogId,
+            author = "Me",
+            contents = listOf(ChatMessageContent.Text(text)),
+            isMine = true,
+        )
+        nextMessageId += 1
+
+        _state.update {
+            it.copy(
+                messages = it.messages + createMessageItemState(newMessage),
+                inputFieldState = it.inputFieldState.copy(value = ""),
+            )
+        }
+    }
+
+    private fun createMessageItemState(message: ChatMessage): ChatMessageItemState {
+        val viewModel = chatMessageItemViewModelFactory.create(message)
+        messageItemViewModels += viewModel
+        return viewModel.state.value
     }
 
     @AssistedFactory

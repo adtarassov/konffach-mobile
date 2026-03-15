@@ -15,6 +15,8 @@ import com.konffach.app.features.auth.ui.AuthScreenTestTags
 import com.konffach.app.features.auth.ui.AuthViewModel
 import com.konffach.app.features.chat.api.ChatRepository
 import com.konffach.app.features.chat.screen.ChatMessage
+import com.konffach.app.features.chat.screen.ChatMessageContent
+import com.konffach.app.features.chat.ui.ChatMessageItemViewModel
 import com.konffach.app.features.chat.ui.ChatViewModel
 import com.konffach.app.features.dialogs.screen.ChatSummary
 import com.konffach.app.features.dialogs.ui.DialogsViewModel
@@ -66,6 +68,9 @@ private class FakeAppGraph : AppGraph {
     private val authRepository = FakeAuthRepository()
     private val homeRepository = FakeHomeRepository()
     private val chatRepository = FakeChatRepository()
+    private val chatMessageItemViewModelFactory = ChatMessageItemViewModel.Factory { message ->
+        ChatMessageItemViewModel(message)
+    }
 
     override val navigationViewModel: NavigationViewModel =
         NavigationViewModel(tokenRepository)
@@ -98,6 +103,7 @@ private class FakeAppGraph : AppGraph {
             ChatViewModel(
                 dialogId = dialogId,
                 repository = chatRepository,
+                chatMessageItemViewModelFactory = chatMessageItemViewModelFactory,
             )
         }
 }
@@ -152,7 +158,7 @@ private class FakeChatRepository : ChatRepository {
             id = "1",
             dialogId = dialogId,
             author = "Tester",
-            text = "Message",
+            contents = listOf(ChatMessageContent.Text("Message")),
             isMine = true,
         )
     )
