@@ -9,9 +9,9 @@ import io.ktor.client.request.post
 import io.ktor.client.request.setBody
 import kotlinx.serialization.Serializable
 
-const val PATH_SIGN_IN = "users/login"
-const val PATH_SIGN_UP = "users/register"
-const val PATH_REFRESH_TOKEN = "users/refresh"
+const val PATH_SIGN_IN = "api/users/login"
+const val PATH_SIGN_UP = "api/users/register"
+const val PATH_REFRESH_TOKEN = "api/users/refresh"
 
 @Inject
 @SingleIn(AppScope::class)

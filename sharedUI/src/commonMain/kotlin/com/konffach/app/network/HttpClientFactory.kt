@@ -31,7 +31,7 @@ private val REQUEST_TIMEOUT = 20.seconds
 private val CONNECT_TIMEOUT = 10.seconds
 private val SOCKET_TIMEOUT = 20.seconds
 
-private const val DEFAULT_HOST = "konffach-lranger123.amvera.io/api"
+private const val DEFAULT_HOST = "konffach-lranger123.amvera.io"
 
 /**
  * Creates the single shared [HttpClient] with hardcoded defaults.
